@@ -16,3 +16,20 @@
     justify-content: center;
     background-color: var(--app-background);
 }
+
+.app-dark-button{
+    border: none;
+    height: 3.2rem;
+    width: 20rem;
+    border-radius: 1rem;
+    color: white;
+    font-weight: bold;
+    background-color: var(--app-dark-button);
+    cursor: pointer;
+    
+    &:hover{
+        background-color: var(--app-dark-button-hover);
+        transform: scale(1.05);
+        transition: 1.5s;
+    }
+}
