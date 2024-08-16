@@ -1,14 +1,15 @@
 <script setup lang="ts">
+  import { useRouter } from 'vue-router';
+  const router = useRouter();
+
 
 </script>
 
 <template>
   <div class="flex flex-row align-itens-center justify-content-evenly">
     <section class="flex flex-column align-itens-center">
-      <h1>
-        Construa agora seu Ultra Alien!
-      </h1>
-      <button class="mt-4 app-dark-button">Quero o meu!</button>
+      <h1>{{ $t('HOME.TITLE') }}</h1>
+      <button class="mt-4 app-dark-button" @click="router.push('/build')">{{ $t('HOME.ORDER') }}</button>
     </section>
     <section>
       <img src="/KevinMonster.png" alt="KevinMonster">

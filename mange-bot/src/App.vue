@@ -13,11 +13,11 @@
     <footer class="flex flex-row align-items-end justify-content-end">
       <div class="footer-bots flex flex-row justify-content-evenly">
       <FooterBot img="Ben_Origina.webp" 
-        text="Crie seu próprio Alien do Omnitrix, misturando as caracteristicas dos seus Heróis Prediletos" />
+        :text="$t('FOOTER.ABOUT')" />
       <FooterBot img="Ben10adolecente.webp" 
-        text="Finalmente encontrei um lugar para montar meus própios Aliens" />
+        :text="$t('FOOTER.FOUND')" />
       <FooterBot img="KevinPose2.webp" 
-        text="Oh Meus Deus... O que eu fiz" />
+        :text="$t('FOOTER.OMG')" />
       </div>
       <img id="circle" src="/icon2.png" alt="circle">
     </footer>
