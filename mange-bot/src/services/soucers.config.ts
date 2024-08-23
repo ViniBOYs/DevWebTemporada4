@@ -1,8 +1,9 @@
 import axios, { type AxiosResponse } from "axios";
+export const BASE_URL = import.meta.env.VITE_BACKEND_URL
 
 export const getAxios = () => {
     const createdAxios = axios.create({
-        baseURL: "https://mamge-make-bot.azurewebsite.net/api",
+        baseURL: "/proxy-api/api",
         timeout: 40000, // 40 segundos
         headers: {
             "Content-Type": "application/json",
@@ -14,7 +15,7 @@ export const getAxios = () => {
     // ? createdAxios.interceptors.response --> Executa DEPOIS de chamar o Backend
 
     createdAxios.interceptors.response.use(getAxiosResponse);
-    return getAxiosResponse;
+    return createdAxios;
 }
 
 const getAxiosResponse = (response: AxiosResponse) => {
