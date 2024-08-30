@@ -12,5 +12,9 @@
         "HOME": "Inicio",
         "BUILD": "Obra",
         "CART": "Carrinho"
+    },
+    "BUILD": {
+        "TITLE": "Personalize seu Robô!",
+        "ADD_CART": "Adicionar ao Carrinho"
     }
 }

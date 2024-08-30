@@ -21,8 +21,12 @@
 section{
   align-items: center;
   justify-content: center;
+  button{
+    width: 25rem;
+    height: 3.5rem;
+  }
 }
-  h1{
+h1{
     font-size: 5rem;
     width: 25rem;
     text-align: center;

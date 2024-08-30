@@ -3,70 +3,167 @@ import { Part } from '@/models/parts';
 import { BASE_URL } from '@/services/soucers.config';
 import { type Ref, ref } from 'vue';
 
-    type PropType = {
-        parts: Array<Part>;
-        position: "left"|"right"|"center"|"top"|"bottom";
-    };
+type PropType = {
+    parts: Array<Part>;
+    position: "left"|"right"|"center"|"top"|"bottom"
+}
+
+const props = defineProps<PropType>();
+
+const model = defineModel<Part>();
+model.value = new Part();
+
+const selectedIndex = ref(0);
+
+const changePart = (isNext: boolean)=>{
+
+    const newIndex = isNext? selectedIndex.value + 1 : 
+                             selectedIndex.value - 1;
     
-    const props = defineProps<PropType>();
-
-    const selectedIndex = ref(0);
-
-    // const changePart = (isNext: boolean)=>{
-    //     if(isNext){
-    //         if (selectedIndex.value == (props.parts.length - 1)){
-    //             selectedIndex.value = 0
-    //         } else {
-    //             selectedIndex.value ++;
-    //         }
-    //     } else {
-    //         if (selectedIndex.value == 0){
-    //             selectedIndex.value = (props.parts.length - 1)
-    //         } else {
-    //             selectedIndex.value --;
-    //         }
-    //     }
-    // }
-
-    const changePart = (isNext: boolean)=>{
-        
-        const newIdex = isNext? selectedIndex.value + 1 :
-                                selectedIndex.value - 1;
-        // ? Se já estiver na primeira peça, volta para a ultima
-        if(newIdex <0){ 
-            selectedIndex.value = (props.parts.length - 1);
-        }
-        // ? Se já estiver na ultima peça, volta para a primeira
-        else if(newIdex > (props.parts.length - 1)){
-            selectedIndex.value = 0;
-        }
-        else{
-            selectedIndex.value = newIdex;
-        }
+    //se já estiver na primeira peça, volta para a última
+    if(newIndex < 0){
+        selectedIndex.value = (props.parts.length - 1);
     }
+    //se já estiver na última peça, volta para a primeira
+    else if(newIndex > (props.parts.length - 1)){
+        selectedIndex.value = 0;
+    }
+    //não está no limite inferior nem no superior
+    else{
+        selectedIndex.value = newIndex;
+    }
+    
+    /*if(isNext){
+        selectedIndex.value = 
+        selectedIndex.value >= (props.parts.length - 1)?
+        (props.parts.length - 1) : selectedIndex.value + 1;
+    }
+    else{
+        selectedIndex.value = selectedIndex.value <= 0?
+        0 : selectedIndex.value - 1;
+    }*/
 
+    // Transmite para o pai do componente via v-model qual
+    // a pela que estpa selecionada no momento!
+    model.value = props.parts[selectedIndex.value];
+}
 </script>
-
 <template>
-    <div :class="`part ${props.parts}`">
-        <img :src="BASE_URL + props.parts[selectedIndex].src" alt="">
+    <div :class="`part ${props.position}`" v-if="props.parts[selectedIndex]">          
+        <img :src="BASE_URL + props.parts[selectedIndex]?.src" alt="">
         <button @click="changePart(false)" class="prev-selector"></button>
         <button @click="changePart(true)" class="next-selector"></button>
     </div>
 </template>
 
 <style scoped lang="scss">
-    $part-width: 165px;
-    $part-height: 165px;
+$part-width: 165px;
+$part-height: 165px;
 
-    .part{
-        position: relative;
-        width: $part-width;
-        height: $part-height;
-        border: 3px solid #aaa;
-        // img{
-        //     width: calc($part-width -5px);
-        //     height: calc($part-height -5px);
-        // }
+.part{
+    position: relative;
+    width: $part-width;
+    height: $part-height;
+    border: 3px solid var(--app-part-border);
+
+    img{
+        width: calc($part-width - 0px);
+        height: calc($part-height - 0px);
     }
+    button{
+        position: absolute;
+        z-index: 1;
+        top: -3px;
+        width: 25px;
+        height: 171px;
+    }
+
+    .next-selector{
+        right: -28px;
+    }
+
+    .prev-selector{
+        left: -28px;
+    }
+}
+
+.top{
+    border-bottom: none;
+}
+
+.left{
+    border-right: none;
+    img{
+        transform: rotate(-90deg);
+    }
+    .next-selector{
+        top:auto;
+        bottom: -28px;
+        left: -3px;
+        width: 144px;
+        height: 25px;
+    }
+    .prev-selector{
+        top:-28px;
+        left: -3px;
+        width: 144px;
+        height: 25px;
+    }
+}
+
+.right{
+    border-left: none;
+    img{
+        transform: rotate(90deg);
+    }
+    .next-selector{
+        top: auto;
+        bottom: -28px;
+        right: -3px;
+        width: 144px;
+        height: 25px;
+    }
+    .prev-selector{
+        top: -28px;
+        left: 22px;
+        width: 144px;
+        height: 25px;
+    }
+    
+}
+
+.bottom{
+    border-top: none;
+}
+
+.center{
+    border: none;
+    .next-selector,
+    .prev-selector{
+        opacity: 0.3;
+    }
+}
+
+.left .prev-selector::after,
+.right .prev-selector::after{
+    content: "\25B2";
+}
+
+.left .next-selector::after,
+.right .next-selector::after{
+    content: "\25BC";
+}
+
+.top .prev-selector::after,
+.bottom .prev-selector::after,
+.center .prev-selector::after{
+    content: "\25C4";
+}
+
+.top .next-selector::after,
+.bottom .next-selector::after,
+.center .next-selector::after{
+    content: "\25BA";
+}
+
 </style>
