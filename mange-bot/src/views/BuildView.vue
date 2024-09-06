@@ -4,24 +4,24 @@
   import { type Ref, ref, reactive } from 'vue';
   import { Part, PartsResponse } from '@/models/parts';
   import { ItemCart } from '@/models/cart';
+  import { useCart } from '@/stores/Cart';
   
+  // cria variavel e inicia vazia
   const availableParts: Ref<PartsResponse> = ref(new PartsResponse());
     
+  // chama backend e armazena a variavel  
   getParts().then((response)=>{      
       availableParts.value = response
     });
-  
-  // const selectedHead: Ref<Part> = ref(new Part());
-  const selectedParts: reactive<ItemCart>({
-    head: new Part(),
-    leftArm: new Part(),
-    rightArm: new Part(),
-    torso: new Part(),
-    base: new Part(),
-  });
+    
+  const itemCart = new ItemCart();
+  const selectedParts = reactive<ItemCart>(itemCart);
 
   const addCart = () => {
-    console.log("SelectedHead: ",selectedParts.head);
+    console.log("selectedParts: ",selectedParts);
+
+    selectedParts.updateCost();
+    useCart().addCart(selectedParts);
   }
     
 </script>
