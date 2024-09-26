@@ -14,6 +14,7 @@
     <section>
       <img src="/KevinMonster.png" alt="KevinMonster">
     </section>
+    <h1>FazGostoso</h1>
   </div>
 </template>
 
